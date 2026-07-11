@@ -1150,7 +1150,7 @@ http.createServer((req, res) => {
   }
 
   // --- GET /auth/discord/login : redirige vers Discord pour se connecter ---
-  if (req.method === 'GET' && pathname === '/auth/discord/login') {
+  if (req.method === 'GET' && pathname === 'github.com/YamaStreat/fivem-bot/auth/discord/login') {
     const state = crypto.randomBytes(16).toString('hex');
     oauthStates.set(state, Date.now() + 5 * 60 * 1000); // valable 5 minutes
 
