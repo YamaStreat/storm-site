@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S.T.O.R.M. Studio — Station de suivi</title>
+<title>S.T.O.R.M. Studio — Panel Staff</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -95,38 +95,114 @@
 
   /* ---------- Login screen ---------- */
   #loginScreen {
-    min-height: 70vh;
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .login-card {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line-bright);
+    border-radius: 6px;
+    padding: 40px 34px 34px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    gap: 22px;
-    padding: 20px;
+    gap: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
   }
-  #loginScreen .eyebrow {
+  /* Coins signature, callback au design d'origine S.T.O.R.M. */
+  .login-card::before, .login-card::after {
+    content: "";
+    position: absolute;
+    width: 18px; height: 18px;
+    border: 2px solid var(--sweep-cyan);
+    pointer-events: none;
+  }
+  .login-card::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .login-card::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .login-scan {
+    position: absolute;
+    left: 0; right: 0;
+    height: 90px;
+    top: -90px;
+    background: linear-gradient(to bottom, transparent, rgba(52,211,232,0.07), transparent);
+    animation: scan-down 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes scan-down {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(calc(100% + 260px)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .login-scan { animation: none; display: none; }
+  }
+
+  .login-eyebrow {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 2px;
     color: var(--echo-red);
     text-transform: uppercase;
   }
-  #loginScreen h1 {
-    font-size: 26px;
+  .login-brand {
+    font-size: 15px;
     font-weight: 700;
-    letter-spacing: .5px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+  }
+  .login-brand span { color: var(--sweep-cyan); }
+  #loginScreen h1 {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    margin-top: -8px;
   }
   #loginScreen p {
     color: var(--text-dim);
-    font-size: 14px;
-    max-width: 340px;
+    font-size: 13.5px;
+    max-width: 300px;
     line-height: 1.6;
   }
+  .login-session {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 0;
+    width: 100%;
+    justify-content: center;
+  }
+  .login-session-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--echo-red);
+    box-shadow: 0 0 6px 1px rgba(239,74,94,0.6);
+  }
   .discord-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
     background: #5865f2;
     border: none;
     color: white;
-    padding: 13px 26px;
+    padding: 13px 22px;
     border-radius: 4px;
     font-family: var(--font-display);
     font-weight: 600;
@@ -136,6 +212,7 @@
     transition: filter .15s, transform .15s;
   }
   .discord-btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+  .discord-btn:active { transform: translateY(0); }
 
   /* ---------- Layout ---------- */
   .dash-grid {
@@ -351,10 +428,23 @@
 
   <!-- Écran de connexion -->
   <div id="loginScreen">
-    <div class="eyebrow">Accès restreint</div>
-    <h1>Station de suivi S.T.O.R.M.</h1>
-    <p>Réservé à l'équipe. Connecte-toi avec ton compte Discord pour accéder aux tickets et à leurs transcripts.</p>
-    <button class="discord-btn" onclick="loginWithDiscord()">Se connecter avec Discord</button>
+    <div class="login-card">
+      <div class="login-scan"></div>
+      <div class="login-eyebrow">⚠ Accès restreint</div>
+      <div class="login-brand">S.T.O.R.M.<span>.</span></div>
+      <h1>Panel Staff</h1>
+      <p>Réservé à l'équipe de STORM Studio. Connecte-toi avec ton compte Discord pour accéder aux outils de gestion du serveur.</p>
+      <div class="login-session">
+        <span class="login-session-dot"></span>
+        Session — non authentifiée
+      </div>
+      <button class="discord-btn" onclick="loginWithDiscord()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.128c-.598.35-1.22.645-1.873.892a.076.076 0 0 0-.04.107c.36.698.772 1.363 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.662a.06.06 0 0 0-.031-.028ZM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.211 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/>
+        </svg>
+        Se connecter avec Discord
+      </button>
+    </div>
   </div>
 
   <!-- Contenu principal -->
@@ -363,7 +453,7 @@
     <div class="topbar">
       <div class="brand">
         <div class="mark">S.T.O.R.M.<span>.</span></div>
-        <div class="sub">Station de suivi</div>
+        <div class="sub">Panel Staff</div>
       </div>
       <div class="who-block">
         <div class="who">Connecté — <b id="whoUsername"></b></div>
@@ -431,7 +521,7 @@
 
     </div>
 
-    <div class="footer-note">S.T.O.R.M. Studio — station de suivi</div>
+    <div class="footer-note">S.T.O.R.M. Studio — Panel Staff</div>
 
   </div>
 
