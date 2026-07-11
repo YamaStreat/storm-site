@@ -154,60 +154,6 @@
     color: var(--accent);
   }
 
-  /* --- Widget suivi de commande --- */
-  .order-input-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .order-input-row input {
-    flex: 1;
-    background: var(--bg-void);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 10px 12px;
-    border-radius: 3px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    outline: none;
-  }
-  .order-input-row input:focus { border-color: var(--accent); }
-  .order-input-row input::placeholder { color: var(--text-dim); }
-
-  .order-input-row button {
-    background: var(--bg-raised);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 0 18px;
-    border-radius: 3px;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 13px;
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .order-input-row button:hover { border-color: var(--accent); color: var(--accent); }
-
-  .order-result {
-    background: var(--bg-raised);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--line-bright);
-    border-radius: 3px;
-    padding: 12px 14px;
-    font-size: 13px;
-    line-height: 1.6;
-    min-height: 20px;
-  }
-  .order-result.en_attente { border-left-color: var(--danger); }
-  .order-result.en_cours { border-left-color: var(--warn); }
-  .order-result.livree { border-left-color: var(--accent); }
-
-  .order-result .numero {
-    font-family: var(--font-mono);
-    color: var(--text);
-    font-weight: 600;
-  }
-
   .footer-note {
     text-align: center;
     font-size: 11px;
@@ -292,6 +238,8 @@
   .ticket-badge.en_attente { border-color: var(--danger); color: var(--danger); }
   .ticket-badge.en_cours { border-color: var(--warn); color: var(--warn); }
   .ticket-badge.livree { border-color: var(--accent); color: var(--accent); }
+  .ticket-badge.open { border-color: var(--warn); color: var(--warn); }
+  .ticket-badge.closed { border-color: var(--text-dim); color: var(--text-dim); }
   .ticket-transcript {
     font-size: 11.5px;
     color: var(--text-dim);
@@ -344,14 +292,28 @@
   }
   #transcriptModal .modal-close:hover { color: var(--danger); }
   #transcriptModal .modal-body {
-    padding: 16px 18px;
+    padding: 8px 18px 16px;
     overflow-y: auto;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 13px;
     color: var(--text);
-    white-space: pre-wrap;
+  }
+  .transcript-line {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .transcript-line:last-child { border-bottom: none; }
+  .transcript-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .transcript-time { color: var(--text-dim); }
+  .transcript-author { color: var(--accent); font-weight: 600; }
+  .transcript-content {
+    color: var(--text);
+    line-height: 1.5;
     word-break: break-word;
+    white-space: pre-wrap;
   }
 </style>
 </head>
@@ -378,7 +340,6 @@
 
     <div class="tabs">
       <button class="tab-btn active" data-tab="statut" onclick="switchTab('statut')">Statut</button>
-      <button class="tab-btn" data-tab="commande" onclick="switchTab('commande')">Commande</button>
       <button class="tab-btn" data-tab="ticket" onclick="switchTab('ticket')">Ticket</button>
     </div>
 
@@ -402,31 +363,25 @@
       </div>
     </div>
 
-    <div class="tab-panel" id="tabCommande">
-      <div class="card">
-        <h2>📦 Suivi de commande</h2>
-        <div class="order-input-row">
-          <input type="text" id="orderInput" placeholder="CMD-1234" maxlength="10">
-          <button onclick="checkOrder()">Vérifier</button>
-        </div>
-        <div class="order-result" id="orderResult">Entre un numéro de commande ci-dessus.</div>
-      </div>
-    </div>
-
     <div class="tab-panel" id="tabTicket">
       <div class="card">
-        <h2>🔴 En attente</h2>
+        <h2>🔴 Commande — En attente</h2>
         <div id="ticketsEnAttente">Chargement...</div>
       </div>
 
       <div class="card">
-        <h2>🟠 En cours de traitement</h2>
+        <h2>🟠 Commande — En cours de traitement</h2>
         <div id="ticketsEnCours">Chargement...</div>
       </div>
 
       <div class="card">
-        <h2>🟢 Livrées</h2>
+        <h2>🟢 Commande — Livrées</h2>
         <div id="ticketsLivrees">Chargement...</div>
+      </div>
+
+      <div class="card">
+        <h2>🎫 Support Discord</h2>
+        <div id="ticketsSupport">Chargement...</div>
       </div>
     </div>
 
@@ -517,44 +472,12 @@
     }
   }
 
-  async function checkOrder() {
-    const input = document.getElementById('orderInput');
-    const result = document.getElementById('orderResult');
-    const numero = input.value.trim().toUpperCase();
-
-    if (!numero) {
-      result.className = 'order-result';
-      result.textContent = 'Entre un numéro de commande.';
-      return;
-    }
-
-    result.className = 'order-result';
-    result.textContent = 'Recherche en cours...';
-
-    try {
-      const res = await fetch(`${BOT_API_URL}/api/order?numero=${encodeURIComponent(numero)}`);
-      const data = await res.json();
-
-      if (!data.ok) {
-        result.className = 'order-result';
-        result.textContent = `Aucune commande trouvée pour "${numero}".`;
-        return;
-      }
-
-      result.className = `order-result ${data.statut}`;
-      result.innerHTML = `Commande <span class="numero">${data.numero}</span> — ${data.statutLabel}`;
-    } catch (err) {
-      result.className = 'order-result';
-      result.textContent = 'Erreur de connexion au serveur.';
-    }
-  }
-
   function renderTicketRow(t) {
     return `
       <div class="ticket-row">
         <span class="ticket-numero">${t.numero}</span>
         <span class="ticket-badge ${t.statut}">${t.statutLabel}</span>
-        ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.numero}')">Voir transcript</span>` : '<span></span>'}
+        ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.id}')">Voir transcript</span>` : '<span></span>'}
       </div>
     `;
   }
@@ -563,21 +486,21 @@
     const zoneEnAttente = document.getElementById('ticketsEnAttente');
     const zoneEnCours = document.getElementById('ticketsEnCours');
     const zoneLivrees = document.getElementById('ticketsLivrees');
+    const zoneSupport = document.getElementById('ticketsSupport');
 
     try {
       const res = await fetch(`${BOT_API_URL}/api/tickets`, { credentials: 'include' });
       const data = await res.json();
 
       if (!data.ok) {
-        zoneEnAttente.textContent = 'Erreur lors du chargement.';
-        zoneEnCours.textContent = 'Erreur lors du chargement.';
-        zoneLivrees.textContent = 'Erreur lors du chargement.';
+        [zoneEnAttente, zoneEnCours, zoneLivrees, zoneSupport].forEach((z) => z.textContent = 'Erreur lors du chargement.');
         return;
       }
 
-      const enAttente = data.tickets.filter((t) => t.statut === 'en_attente');
-      const enCours = data.tickets.filter((t) => t.statut === 'en_cours');
-      const livrees = data.tickets.filter((t) => t.statut === 'livree');
+      const enAttente = data.tickets.filter((t) => t.type === 'commande' && t.statut === 'en_attente');
+      const enCours = data.tickets.filter((t) => t.type === 'commande' && t.statut === 'en_cours');
+      const livrees = data.tickets.filter((t) => t.type === 'commande' && t.statut === 'livree');
+      const support = data.tickets.filter((t) => t.type === 'discord');
 
       zoneEnAttente.innerHTML = enAttente.length > 0
         ? enAttente.map(renderTicketRow).join('')
@@ -590,34 +513,56 @@
       zoneLivrees.innerHTML = livrees.length > 0
         ? livrees.map(renderTicketRow).join('')
         : 'Aucune commande livrée.';
+
+      zoneSupport.innerHTML = support.length > 0
+        ? support.map(renderTicketRow).join('')
+        : 'Aucun ticket support Discord.';
     } catch (err) {
-      zoneEnAttente.textContent = 'Erreur lors du chargement des tickets.';
-      zoneEnCours.textContent = 'Erreur lors du chargement des tickets.';
-      zoneLivrees.textContent = 'Erreur lors du chargement des tickets.';
+      [zoneEnAttente, zoneEnCours, zoneLivrees, zoneSupport].forEach((z) => z.textContent = 'Erreur lors du chargement des tickets.');
     }
   }
 
-  async function openTranscript(numero) {
+  function parseTranscriptLine(line) {
+    const match = line.match(/^\[(.+?)\]\s(.+?)\s:\s([\s\S]*)$/);
+    if (!match) return { time: '', author: '', content: line };
+    const [, time, author, content] = match;
+    return { time, author, content };
+  }
+
+  async function openTranscript(id) {
     const overlay = document.getElementById('transcriptOverlay');
     const title = document.getElementById('transcriptTitle');
     const body = document.getElementById('transcriptBody');
 
-    title.textContent = `Transcript — ${numero}`;
-    body.textContent = 'Chargement...';
+    title.textContent = `Transcript`;
+    body.innerHTML = 'Chargement...';
     overlay.classList.remove('hidden');
 
     try {
-      const res = await fetch(`${BOT_API_URL}/api/transcript?numero=${encodeURIComponent(numero)}`, { credentials: 'include' });
+      const res = await fetch(`${BOT_API_URL}/api/transcript?id=${encodeURIComponent(id)}`, { credentials: 'include' });
       const data = await res.json();
 
       if (!data.ok || !data.transcriptUrl) {
-        body.textContent = 'Aucun transcript disponible pour cette commande.';
+        body.textContent = 'Aucun transcript disponible.';
         return;
       }
 
       const fileRes = await fetch(data.transcriptUrl);
       const text = await fileRes.text();
-      body.textContent = text;
+
+      if (!text.trim()) {
+        body.textContent = 'Aucun message dans ce ticket.';
+        return;
+      }
+
+      const rows = text.split('\n').filter(Boolean).map(parseTranscriptLine);
+
+      body.innerHTML = rows.map((r) => `
+        <div class="transcript-line">
+          <div class="transcript-meta"><span class="transcript-time">${r.time}</span> <span class="transcript-author">${r.author}</span></div>
+          <div class="transcript-content">${r.content.replace(/</g, '&lt;')}</div>
+        </div>
+      `).join('');
     } catch (err) {
       body.textContent = 'Erreur lors du chargement du transcript.';
     }
@@ -626,10 +571,6 @@
   function closeTranscript() {
     document.getElementById('transcriptOverlay').classList.add('hidden');
   }
-
-  document.getElementById('orderInput').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') checkOrder();
-  });
 
   checkLogin();
   setInterval(loadStatus, 30000); // rafraîchit le statut toutes les 30 secondes
