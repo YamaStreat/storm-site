@@ -317,6 +317,7 @@
   /* ---------- Ticket tabs ---------- */
   .tab-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 4px;
     margin-bottom: 16px;
     border-bottom: 1px solid var(--line);
@@ -341,6 +342,7 @@
   .tab[data-key="en_attente"] .swatch { background: var(--echo-red); }
   .tab[data-key="en_cours"] .swatch { background: var(--echo-yellow); }
   .tab[data-key="livree"] .swatch { background: var(--echo-green); }
+  .tab[data-key="discord"] .swatch { background: var(--sweep-cyan); }
   .tab.active { color: var(--text); border-color: var(--sweep-cyan); }
   .tab:hover { color: var(--text); }
 
@@ -375,6 +377,8 @@
   .ticket-badge.en_attente { border-color: var(--echo-red); color: var(--echo-red); }
   .ticket-badge.en_cours { border-color: var(--echo-yellow); color: var(--echo-yellow); }
   .ticket-badge.livree { border-color: var(--echo-green); color: var(--echo-green); }
+  .ticket-badge.open { border-color: var(--sweep-cyan); color: var(--sweep-cyan); }
+  .ticket-badge.closed { border-color: var(--echo-green); color: var(--echo-green); }
   .ticket-transcript {
     font-family: var(--font-mono);
     font-size: 11.5px;
@@ -538,6 +542,9 @@
             <button class="tab" data-key="livree" onclick="switchTab('livree')">
               <span class="swatch"></span>Livrées
             </button>
+            <button class="tab" data-key="discord" onclick="switchTab('discord')">
+              <span class="swatch"></span>Support Discord
+            </button>
           </div>
           <div class="tab-panel active" id="panel-en_attente">
             <div id="ticketsEnAttente" class="empty">Chargement...</div>
@@ -547,6 +554,9 @@
           </div>
           <div class="tab-panel" id="panel-livree">
             <div id="ticketsLivrees" class="empty">Chargement...</div>
+          </div>
+          <div class="tab-panel" id="panel-discord">
+            <div id="ticketsDiscord" class="empty">Chargement...</div>
           </div>
         </div>
       </div>
@@ -686,6 +696,7 @@
     const zoneEnAttente = document.getElementById('ticketsEnAttente');
     const zoneEnCours = document.getElementById('ticketsEnCours');
     const zoneLivrees = document.getElementById('ticketsLivrees');
+    const zoneDiscord = document.getElementById('ticketsDiscord');
 
     try {
       const res = await fetch(`${BOT_API_URL}/api/tickets`, { credentials: 'include' });
@@ -695,12 +706,16 @@
         zoneEnAttente.textContent = 'Erreur lors du chargement.';
         zoneEnCours.textContent = 'Erreur lors du chargement.';
         zoneLivrees.textContent = 'Erreur lors du chargement.';
+        zoneDiscord.textContent = 'Erreur lors du chargement.';
         return;
       }
 
-      const enAttente = data.tickets.filter((t) => t.statut === 'en_attente');
-      const enCours = data.tickets.filter((t) => t.statut === 'en_cours');
-      const livrees = data.tickets.filter((t) => t.statut === 'livree');
+      const enAttente = data.tickets.filter((t) => t.type === 'commande' && t.statut === 'en_attente');
+      const enCours = data.tickets.filter((t) => t.type === 'commande' && t.statut === 'en_cours');
+      const livrees = data.tickets.filter((t) => t.type === 'commande' && t.statut === 'livree');
+      const discordTickets = data.tickets
+        .filter((t) => t.type === 'discord')
+        .sort((a, b) => (a.statut === 'open' ? -1 : 1) - (b.statut === 'open' ? -1 : 1));
 
       zoneEnAttente.className = enAttente.length ? '' : 'empty';
       zoneEnAttente.innerHTML = enAttente.length > 0
@@ -716,10 +731,16 @@
       zoneLivrees.innerHTML = livrees.length > 0
         ? livrees.map(renderTicketRow).join('')
         : 'Aucune commande livrée.';
+
+      zoneDiscord.className = discordTickets.length ? '' : 'empty';
+      zoneDiscord.innerHTML = discordTickets.length > 0
+        ? discordTickets.map(renderTicketRow).join('')
+        : 'Aucun ticket support Discord.';
     } catch (err) {
       zoneEnAttente.textContent = 'Erreur lors du chargement des tickets.';
       zoneEnCours.textContent = 'Erreur lors du chargement des tickets.';
       zoneLivrees.textContent = 'Erreur lors du chargement des tickets.';
+      zoneDiscord.textContent = 'Erreur lors du chargement des tickets.';
     }
   }
 
