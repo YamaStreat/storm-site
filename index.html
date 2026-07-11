@@ -324,8 +324,18 @@
     </div>
 
     <div class="card">
-      <h2>🗂️ Tickets commande</h2>
-      <div id="ticketsList">Chargement...</div>
+      <h2>🔴 En attente</h2>
+      <div id="ticketsEnAttente">Chargement...</div>
+    </div>
+
+    <div class="card">
+      <h2>🟠 En cours de traitement</h2>
+      <div id="ticketsEnCours">Chargement...</div>
+    </div>
+
+    <div class="card">
+      <h2>🟢 Livrées</h2>
+      <div id="ticketsLivrees">Chargement...</div>
     </div>
 
   </div>
@@ -427,26 +437,51 @@
     }
   }
 
+  function renderTicketRow(t) {
+    return `
+      <div class="ticket-row">
+        <span class="ticket-numero">${t.numero}</span>
+        <span class="ticket-badge ${t.statut}">${t.statutLabel}</span>
+        ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.numero}')">Voir transcript</span>` : '<span></span>'}
+      </div>
+    `;
+  }
+
   async function loadTickets() {
-    const list = document.getElementById('ticketsList');
+    const zoneEnAttente = document.getElementById('ticketsEnAttente');
+    const zoneEnCours = document.getElementById('ticketsEnCours');
+    const zoneLivrees = document.getElementById('ticketsLivrees');
+
     try {
       const res = await fetch(`${BOT_API_URL}/api/tickets`, { credentials: 'include' });
       const data = await res.json();
 
-      if (!data.ok || data.tickets.length === 0) {
-        list.textContent = 'Aucun ticket pour le moment.';
+      if (!data.ok) {
+        zoneEnAttente.textContent = 'Erreur lors du chargement.';
+        zoneEnCours.textContent = 'Erreur lors du chargement.';
+        zoneLivrees.textContent = 'Erreur lors du chargement.';
         return;
       }
 
-      list.innerHTML = data.tickets.map((t) => `
-        <div class="ticket-row">
-          <span class="ticket-numero">${t.numero}</span>
-          <span class="ticket-badge ${t.statut}">${t.statutLabel}</span>
-          ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.numero}')">Voir transcript</span>` : '<span></span>'}
-        </div>
-      `).join('');
+      const enAttente = data.tickets.filter((t) => t.statut === 'en_attente');
+      const enCours = data.tickets.filter((t) => t.statut === 'en_cours');
+      const livrees = data.tickets.filter((t) => t.statut === 'livree');
+
+      zoneEnAttente.innerHTML = enAttente.length > 0
+        ? enAttente.map(renderTicketRow).join('')
+        : 'Aucun ticket en attente.';
+
+      zoneEnCours.innerHTML = enCours.length > 0
+        ? enCours.map(renderTicketRow).join('')
+        : 'Aucun ticket en cours.';
+
+      zoneLivrees.innerHTML = livrees.length > 0
+        ? livrees.map(renderTicketRow).join('')
+        : 'Aucune commande livrée.';
     } catch (err) {
-      list.textContent = 'Erreur lors du chargement des tickets.';
+      zoneEnAttente.textContent = 'Erreur lors du chargement des tickets.';
+      zoneEnCours.textContent = 'Erreur lors du chargement des tickets.';
+      zoneLivrees.textContent = 'Erreur lors du chargement des tickets.';
     }
   }
 
