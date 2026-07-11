@@ -104,10 +104,6 @@
     gap: 22px;
     padding: 20px;
   }
-  #loginScreen .login-radar {
-    width: 120px; height: 120px;
-    margin-bottom: 4px;
-  }
   #loginScreen .eyebrow {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -143,13 +139,7 @@
 
   /* ---------- Layout ---------- */
   .dash-grid {
-    display: grid;
-    grid-template-columns: 272px 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-  @media (max-width: 760px) {
-    .dash-grid { grid-template-columns: 1fr; }
+    display: block;
   }
 
   .panel {
@@ -172,147 +162,32 @@
   }
   .panel h2 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--line-bright); }
 
-  /* ---------- Radar (signature element) ---------- */
-  .radar-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+  /* ---------- Aperçu / statistiques ---------- */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
   }
-  .radar-scope {
-    position: relative;
-    width: 168px;
-    height: 168px;
-    border-radius: 50%;
-    background:
-      repeating-radial-gradient(circle, transparent 0 24px, rgba(70, 224, 138, 0.08) 24px 25px),
-      radial-gradient(circle, #0c1526 0%, #060a13 100%);
-    border: 1px solid var(--line-bright);
-    overflow: hidden;
-  }
-  .radar-scope::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(var(--line) 1px, transparent 1px) center / 100% 33.33%,
-      linear-gradient(90deg, var(--line) 1px, transparent 1px) center / 33.33% 100%;
-    opacity: .5;
-  }
-  .radar-sweep {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, rgba(70,224,138,0.55) 0deg, transparent 55deg);
-    animation: sweep 3.4s linear infinite;
-  }
-  .radar-scope.offline .radar-sweep {
-    background: conic-gradient(from 0deg, rgba(239,74,94,0.4) 0deg, transparent 55deg);
-    animation-duration: 5.5s;
-  }
-  @keyframes sweep { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) {
-    .radar-sweep { animation: none; }
-  }
-  .radar-blip {
-    position: absolute;
-    top: 38%; left: 58%;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--echo-green);
-    box-shadow: 0 0 8px 2px rgba(70,224,138,0.7);
-    animation: blip-pulse 2.2s ease-in-out infinite;
-  }
-  .radar-scope.offline .radar-blip { display: none; }
-  @keyframes blip-pulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
-  .radar-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    background: var(--text-dim);
-    transform: translate(-50%, -50%);
-  }
-
-  .server-hostname {
-    font-size: 15.5px;
-    font-weight: 600;
-    text-align: center;
-  }
-  .server-state-tag {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 3px 9px;
-    border-radius: 10px;
-    border: 1px solid var(--line-bright);
-    color: var(--text-dim);
-  }
-  .server-state-tag.online { border-color: var(--echo-green); color: var(--echo-green); }
-  .server-state-tag.offline { border-color: var(--echo-red); color: var(--echo-red); }
-
-  .stat-line {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    padding: 9px 0;
-    border-top: 1px solid var(--line);
-  }
-  .stat-line .label { color: var(--text-dim); }
-  .stat-line .value { color: var(--text); font-weight: 500; }
-
-  /* ---------- Order lookup ---------- */
-  .order-input-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .order-input-row input {
-    flex: 1;
-    background: var(--bg-deep);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 11px 13px;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    outline: none;
-  }
-  .order-input-row input:focus { border-color: var(--sweep-cyan); }
-  .order-input-row input::placeholder { color: var(--text-dim); }
-  .order-input-row button {
-    background: var(--bg-raised);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 0 20px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 14px;
-    letter-spacing: .3px;
-    cursor: pointer;
-    transition: border-color .15s, color .15s;
-  }
-  .order-input-row button:hover { border-color: var(--sweep-cyan); color: var(--sweep-cyan); }
-
-  .order-result {
+  .stat-card {
     background: var(--bg-raised);
     border: 1px solid var(--line);
-    border-left: 3px solid var(--line-bright);
     border-radius: 4px;
-    padding: 13px 15px;
-    font-size: 13.5px;
-    line-height: 1.6;
-    min-height: 20px;
-    font-family: var(--font-mono);
+    padding: 14px 16px;
   }
-  .order-result.en_attente { border-left-color: var(--echo-red); }
-  .order-result.en_cours { border-left-color: var(--echo-yellow); }
-  .order-result.livree { border-left-color: var(--echo-green); }
-  .order-result .numero { color: var(--text); font-weight: 600; }
+  .stat-card .stat-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--sweep-cyan);
+    line-height: 1.2;
+  }
+  .stat-card .stat-label {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    margin-top: 5px;
+  }
 
   /* ---------- Ticket tabs ---------- */
   .tab-row {
@@ -469,13 +344,9 @@
 
   <!-- Écran de connexion -->
   <div id="loginScreen">
-    <div class="radar-scope login-radar offline" id="loginRadar">
-      <div class="radar-sweep"></div>
-      <div class="radar-center"></div>
-    </div>
     <div class="eyebrow">Accès restreint</div>
     <h1>Station de suivi S.T.O.R.M.</h1>
-    <p>Réservé à l'équipe. Connecte-toi avec ton compte Discord pour accéder au radar serveur, au suivi des commandes et aux tickets.</p>
+    <p>Réservé à l'équipe. Connecte-toi avec ton compte Discord pour accéder aux tickets et à leurs transcripts.</p>
     <button class="discord-btn" onclick="loginWithDiscord()">Se connecter avec Discord</button>
   </div>
 
@@ -495,69 +366,59 @@
 
     <div class="dash-grid">
 
-      <!-- Colonne radar / statut -->
-      <div>
-        <div class="panel">
-          <h2><span class="dot"></span>Radar serveur</h2>
-          <div class="radar-wrap">
-            <div class="radar-scope offline" id="radarScope">
-              <div class="radar-sweep"></div>
-              <div class="radar-blip" id="radarBlip"></div>
-              <div class="radar-center"></div>
-            </div>
-            <div class="server-hostname" id="statusHostname">Connexion...</div>
-            <div class="server-state-tag" id="statusStateTag">—</div>
+      <div class="panel">
+        <h2><span class="dot"></span>Aperçu</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="statOpen">—</div>
+            <div class="stat-label">Tickets ouverts</div>
           </div>
-          <div class="stat-line">
-            <span class="label">Joueurs</span>
-            <span class="value" id="statusPlayers">—</span>
+          <div class="stat-card">
+            <div class="stat-value" id="statClosedTotal">—</div>
+            <div class="stat-label">Tickets fermés (total)</div>
           </div>
-          <div class="stat-line">
-            <span class="label">État</span>
-            <span class="value" id="statusState">—</span>
+          <div class="stat-card">
+            <div class="stat-value" id="statAvgResponse">—</div>
+            <div class="stat-label">Temps de réponse moyen</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statDeliveries">—</div>
+            <div class="stat-label">Livrées ce mois-ci</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statOrdersTotal">—</div>
+            <div class="stat-label">Commandes suivies (total)</div>
           </div>
         </div>
       </div>
 
-      <!-- Colonne principale -->
-      <div>
-        <div class="panel">
-          <h2><span class="dot"></span>Suivi de commande</h2>
-          <div class="order-input-row">
-            <input type="text" id="orderInput" placeholder="CMD-1234" maxlength="10">
-            <button onclick="checkOrder()">Vérifier</button>
-          </div>
-          <div class="order-result" id="orderResult">Entre un numéro de commande ci-dessus.</div>
+      <div class="panel">
+        <h2><span class="dot"></span>Tickets</h2>
+        <div class="tab-row">
+          <button class="tab active" data-key="en_attente" onclick="switchTab('en_attente')">
+            <span class="swatch"></span>En attente
+          </button>
+          <button class="tab" data-key="en_cours" onclick="switchTab('en_cours')">
+            <span class="swatch"></span>En cours
+          </button>
+          <button class="tab" data-key="livree" onclick="switchTab('livree')">
+            <span class="swatch"></span>Livrées
+          </button>
+          <button class="tab" data-key="discord" onclick="switchTab('discord')">
+            <span class="swatch"></span>Support Discord
+          </button>
         </div>
-
-        <div class="panel">
-          <h2><span class="dot"></span>Tickets</h2>
-          <div class="tab-row">
-            <button class="tab active" data-key="en_attente" onclick="switchTab('en_attente')">
-              <span class="swatch"></span>En attente
-            </button>
-            <button class="tab" data-key="en_cours" onclick="switchTab('en_cours')">
-              <span class="swatch"></span>En cours
-            </button>
-            <button class="tab" data-key="livree" onclick="switchTab('livree')">
-              <span class="swatch"></span>Livrées
-            </button>
-            <button class="tab" data-key="discord" onclick="switchTab('discord')">
-              <span class="swatch"></span>Support Discord
-            </button>
-          </div>
-          <div class="tab-panel active" id="panel-en_attente">
-            <div id="ticketsEnAttente" class="empty">Chargement...</div>
-          </div>
-          <div class="tab-panel" id="panel-en_cours">
-            <div id="ticketsEnCours" class="empty">Chargement...</div>
-          </div>
-          <div class="tab-panel" id="panel-livree">
-            <div id="ticketsLivrees" class="empty">Chargement...</div>
-          </div>
-          <div class="tab-panel" id="panel-discord">
-            <div id="ticketsDiscord" class="empty">Chargement...</div>
-          </div>
+        <div class="tab-panel active" id="panel-en_attente">
+          <div id="ticketsEnAttente" class="empty">Chargement...</div>
+        </div>
+        <div class="tab-panel" id="panel-en_cours">
+          <div id="ticketsEnCours" class="empty">Chargement...</div>
+        </div>
+        <div class="tab-panel" id="panel-livree">
+          <div id="ticketsLivrees" class="empty">Chargement...</div>
+        </div>
+        <div class="tab-panel" id="panel-discord">
+          <div id="ticketsDiscord" class="empty">Chargement...</div>
         </div>
       </div>
 
@@ -604,7 +465,7 @@
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
         document.getElementById('whoUsername').textContent = data.username;
-        loadStatus();
+        loadStats();
         loadTickets();
       } else {
         document.getElementById('loginScreen').classList.remove('hidden');
@@ -616,69 +477,31 @@
     }
   }
 
-  async function loadStatus() {
-    const scope = document.getElementById('radarScope');
-    const hostname = document.getElementById('statusHostname');
-    const stateTag = document.getElementById('statusStateTag');
-    const players = document.getElementById('statusPlayers');
-    const state = document.getElementById('statusState');
+  async function loadStats() {
+    const openEl = document.getElementById('statOpen');
+    const closedEl = document.getElementById('statClosedTotal');
+    const avgEl = document.getElementById('statAvgResponse');
+    const deliveriesEl = document.getElementById('statDeliveries');
+    const ordersEl = document.getElementById('statOrdersTotal');
 
     try {
-      const res = await fetch(`${BOT_API_URL}/api/status`);
-      const data = await res.json();
-
-      if (data.online) {
-        scope.classList.remove('offline');
-        hostname.textContent = data.hostname || 'Serveur FiveM';
-        stateTag.textContent = 'En ligne';
-        stateTag.className = 'server-state-tag online';
-        players.textContent = `${data.players} / ${data.maxPlayers}`;
-        state.textContent = 'En ligne';
-      } else {
-        scope.classList.add('offline');
-        hostname.textContent = 'Serveur fermé';
-        stateTag.textContent = 'Hors ligne';
-        stateTag.className = 'server-state-tag offline';
-        players.textContent = '—';
-        state.textContent = 'Hors ligne';
-      }
-    } catch (err) {
-      scope.classList.add('offline');
-      hostname.textContent = 'Erreur de connexion';
-      stateTag.textContent = 'Erreur';
-      stateTag.className = 'server-state-tag offline';
-    }
-  }
-
-  async function checkOrder() {
-    const input = document.getElementById('orderInput');
-    const result = document.getElementById('orderResult');
-    const numero = input.value.trim().toUpperCase();
-
-    if (!numero) {
-      result.className = 'order-result';
-      result.textContent = 'Entre un numéro de commande.';
-      return;
-    }
-
-    result.className = 'order-result';
-    result.textContent = 'Recherche en cours...';
-
-    try {
-      const res = await fetch(`${BOT_API_URL}/api/order?numero=${encodeURIComponent(numero)}`);
+      const res = await fetch(`${BOT_API_URL}/api/stats`, { credentials: 'include' });
       const data = await res.json();
 
       if (!data.ok) {
-        result.className = 'order-result';
-        result.textContent = `Aucune commande trouvée pour "${numero}".`;
+        [openEl, closedEl, avgEl, deliveriesEl, ordersEl].forEach(el => el.textContent = '—');
         return;
       }
 
-      result.className = `order-result ${data.statut}`;
-      result.innerHTML = `Commande <span class="numero">${data.numero}</span> — ${data.statutLabel}`;
+      openEl.textContent = data.ticketsCurrentlyOpen;
+      closedEl.textContent = data.ticketsClosedTotal;
+      avgEl.textContent = data.avgResponseMs
+        ? `${Math.round(data.avgResponseMs / 60000)} min`
+        : '—';
+      deliveriesEl.textContent = data.deliveriesThisMonth;
+      ordersEl.textContent = data.ordersTrackedTotal;
     } catch (err) {
-      result.className = 'order-result';
-      result.textContent = 'Erreur de connexion au serveur.';
+      [openEl, closedEl, avgEl, deliveriesEl, ordersEl].forEach(el => el.textContent = '—');
     }
   }
 
@@ -785,12 +608,7 @@
     document.getElementById('transcriptBody').innerHTML = '<div class="transcript-loading" id="transcriptLoading">Chargement...</div>';
   }
 
-  document.getElementById('orderInput').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') checkOrder();
-  });
-
   checkLogin();
-  setInterval(loadStatus, 30000);
 </script>
 
 </body>
