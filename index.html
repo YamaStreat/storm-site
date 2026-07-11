@@ -273,6 +273,58 @@
   }
   .ticket-transcript:hover { color: var(--accent); }
   .hidden { display: none !important; }
+
+  /* --- Modale transcript --- */
+  #transcriptOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 6, 10, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+  }
+  #transcriptModal {
+    background: var(--bg-panel);
+    border: 1px solid var(--line-bright);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 640px;
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+  }
+  #transcriptModal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  #transcriptModal .modal-header h3 {
+    font-size: 14px;
+    font-family: var(--font-mono);
+  }
+  #transcriptModal .modal-close {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  #transcriptModal .modal-close:hover { color: var(--danger); }
+  #transcriptModal .modal-body {
+    padding: 16px 18px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
 </style>
 </head>
 <body>
@@ -342,6 +394,17 @@
 
   <div class="footer-note">S.T.O.R.M. Studio</div>
 
+</div>
+
+<!-- Modale d'affichage du transcript -->
+<div id="transcriptOverlay" class="hidden" onclick="if(event.target===this) closeTranscript()">
+  <div id="transcriptModal">
+    <div class="modal-header">
+      <h3 id="transcriptTitle">Transcript</h3>
+      <button class="modal-close" onclick="closeTranscript()">✕</button>
+    </div>
+    <div class="modal-body" id="transcriptBody">Chargement...</div>
+  </div>
 </div>
 
 <script>
@@ -486,15 +549,33 @@
   }
 
   async function openTranscript(numero) {
+    const overlay = document.getElementById('transcriptOverlay');
+    const title = document.getElementById('transcriptTitle');
+    const body = document.getElementById('transcriptBody');
+
+    title.textContent = `Transcript — ${numero}`;
+    body.textContent = 'Chargement...';
+    overlay.classList.remove('hidden');
+
     try {
       const res = await fetch(`${BOT_API_URL}/api/transcript?numero=${encodeURIComponent(numero)}`, { credentials: 'include' });
       const data = await res.json();
-      if (data.ok && data.transcriptUrl) {
-        window.open(data.transcriptUrl, '_blank');
+
+      if (!data.ok || !data.transcriptUrl) {
+        body.textContent = 'Aucun transcript disponible pour cette commande.';
+        return;
       }
+
+      const fileRes = await fetch(data.transcriptUrl);
+      const text = await fileRes.text();
+      body.textContent = text;
     } catch (err) {
-      alert('Impossible de récupérer le transcript.');
+      body.textContent = 'Erreur lors du chargement du transcript.';
     }
+  }
+
+  function closeTranscript() {
+    document.getElementById('transcriptOverlay').classList.add('hidden');
   }
 
   document.getElementById('orderInput').addEventListener('keydown', (e) => {
