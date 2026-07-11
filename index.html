@@ -687,7 +687,7 @@
       <div class="ticket-row">
         <span class="ticket-numero">${t.numero}</span>
         <span class="ticket-badge ${t.statut}">${t.statutLabel}</span>
-        ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.numero}')">Voir transcript</span>` : '<span></span>'}
+        ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.id}', '${t.numero}')">Voir transcript</span>` : '<span></span>'}
       </div>
     `;
   }
@@ -750,21 +750,21 @@
     document.getElementById(`panel-${key}`).classList.add('active');
   }
 
-  async function openTranscript(numero) {
+  async function openTranscript(id, displayLabel) {
     const overlay = document.getElementById('transcriptOverlay');
     const title = document.getElementById('transcriptTitle');
     const body = document.getElementById('transcriptBody');
 
-    title.textContent = `Transcript — ${numero}`;
+    title.textContent = `Transcript — ${displayLabel || id}`;
     body.innerHTML = '<div class="transcript-loading" id="transcriptLoading">Chargement...</div>';
     overlay.classList.remove('hidden');
 
     try {
-      const res = await fetch(`${BOT_API_URL}/api/transcript?numero=${encodeURIComponent(numero)}`, { credentials: 'include' });
+      const res = await fetch(`${BOT_API_URL}/api/transcript?numero=${encodeURIComponent(id)}`, { credentials: 'include' });
       const data = await res.json();
 
       if (!data.ok || !data.transcriptUrl) {
-        body.innerHTML = '<div class="transcript-loading">Aucun transcript disponible pour cette commande.</div>';
+        body.innerHTML = '<div class="transcript-loading">Aucun transcript disponible pour ce ticket.</div>';
         return;
       }
 
