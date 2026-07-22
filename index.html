@@ -3,67 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S.T.O.R.M. Studio — Statut & Suivi</title>
+<title>S.T.O.R.M. Studio — Panel Staff</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
   :root {
-    --bg-void: #0a0e14;
-    --bg-panel: #10151d;
-    --bg-raised: #161d28;
-    --line: #232c3a;
-    --line-bright: #33425a;
-    --text: #dbe4f0;
-    --text-dim: #7d8ba0;
-    --accent: #2dd4bf;
+    --bg-void: #0a0c11;
+    --bg-sidebar: #0d0f16;
+    --bg-panel: #12151d;
+    --bg-raised: #191d28;
+    --line: #232733;
+    --line-bright: #333a4c;
+    --text: #e4e8f2;
+    --text-dim: #838ba3;
+    --accent: #7c5cff;
+    --accent-soft: rgba(124, 92, 255, 0.14);
+    --teal: #2dd4bf;
     --warn: #f5a524;
     --danger: #f5546c;
+    --pay: #eab308;
     --font-display: 'Space Grotesk', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  ::selection { background: var(--accent-soft); color: var(--text); }
 
   body {
     background: var(--bg-void);
     color: var(--text);
     font-family: var(--font-display);
     min-height: 100vh;
+  }
+
+  button, input { font-family: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .hidden { display: none !important; }
+
+  /* --- Écran de connexion --- */
+  #loginScreen {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 20px;
   }
-
-  .wrap {
+  #loginScreen .login-card {
     width: 100%;
-    max-width: 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .card {
+    max-width: 420px;
     background: var(--bg-panel);
     border: 1px solid var(--line-bright);
-    border-radius: 4px;
-    padding: 22px 24px;
+    border-radius: 6px;
+    padding: 36px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
     position: relative;
   }
-  .card::before, .card::after {
+  .corner-frame::before, .corner-frame::after {
     content: "";
     position: absolute;
     width: 14px; height: 14px;
     border: 2px solid var(--accent);
     pointer-events: none;
   }
-  .card::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
-  .card::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+  .corner-frame::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .corner-frame::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
 
-  .card h2 {
-    font-size: 13px;
+  #loginScreen .brand-mark {
+    width: 46px; height: 46px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #4b31c9);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 18px; color: white;
+  }
+  #loginScreen h1 { font-size: 19px; font-weight: 700; }
+  #loginScreen p { color: var(--text-dim); font-size: 13.5px; line-height: 1.6; }
+  .discord-btn {
+    background: #5865f2;
+    border: none;
+    color: white;
+    padding: 12px 26px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.15s;
+  }
+  .discord-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  /* --- Layout principal --- */
+  .app {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* --- Barre latérale --- */
+  .sidebar {
+    width: 232px;
+    flex-shrink: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  }
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sidebar-logo .mark {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #4b31c9);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: white;
+    flex-shrink: 0;
+  }
+  .sidebar-logo .name {
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.25;
+  }
+  .sidebar-logo .name small {
+    display: block;
+    font-weight: 500;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 12px;
+  }
+  .nav-section-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-dim);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    padding: 0 10px;
+    margin: 18px 0 8px;
+  }
+  .nav-section-label:first-child { margin-top: 0; }
+  .nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    text-align: left;
+    padding: 9px 10px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .nav-item:hover { background: var(--bg-raised); color: var(--text); }
+  .nav-item.active { background: var(--accent-soft); color: var(--accent); }
+  .nav-item .icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+  .nav-item .count {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line-bright);
+    color: var(--text-dim);
+    padding: 1px 7px;
+    border-radius: 10px;
+  }
+  .nav-item.active .count { border-color: var(--accent); color: var(--accent); }
+
+  .sidebar-user {
+    border-top: 1px solid var(--line);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sidebar-user .who { font-size: 12px; color: var(--text-dim); }
+  .sidebar-user .who b { color: var(--text); display: block; font-size: 13px; }
+  .logout-link {
+    font-size: 12px;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-decoration: underline;
+    width: fit-content;
+  }
+  .logout-link:hover { color: var(--danger); }
+
+  .menu-toggle {
+    display: none;
+    background: var(--bg-raised);
+    border: 1px solid var(--line-bright);
+    color: var(--text);
+    width: 34px; height: 34px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  /* --- Contenu principal --- */
+  .main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .topbar h1 { font-size: 21px; font-weight: 700; }
+  .topbar .subtitle { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
+  .refresh-btn {
+    background: var(--bg-raised);
+    border: 1px solid var(--line-bright);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .page-content { padding: 28px 32px 60px; }
+  .page { display: flex; flex-direction: column; gap: 20px; }
+
+  /* --- Bannière (Vue d'ensemble) --- */
+  .banner {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #171227 0%, #0e1420 60%, #0a0c11 100%);
+    border: 1px solid var(--line-bright);
+    border-radius: 8px;
+    padding: 34px 32px;
+  }
+  .banner::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(124,92,255,0.16) 18deg, transparent 40deg);
+    animation: radar-sweep 7s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .banner::before { animation: none; }
+  }
+  @keyframes radar-sweep { to { transform: rotate(360deg); } }
+  .banner-content { position: relative; z-index: 1; }
+  .banner h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .banner p {
+    color: var(--text-dim);
+    font-size: 13.5px;
+    margin-top: 6px;
+    max-width: 460px;
+  }
+
+  /* --- Cartes de stats --- */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .stat-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line-bright);
+    border-radius: 8px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+  }
+  .stat-card .value {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .stat-card .label {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 6px;
+  }
+  .stat-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .stat-icon.purple { background: rgba(124,92,255,0.16); color: var(--accent); }
+  .stat-icon.teal { background: rgba(45,212,191,0.14); color: var(--teal); }
+  .stat-icon.warn { background: rgba(245,165,36,0.14); color: var(--warn); }
+  .stat-icon.danger { background: rgba(245,84,108,0.14); color: var(--danger); }
+
+  /* --- Cartes génériques --- */
+  .card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line-bright);
+    border-radius: 8px;
+    padding: 22px 24px;
+  }
+  .card h3 {
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
     color: var(--text-dim);
     margin-bottom: 16px;
     display: flex;
@@ -71,210 +342,116 @@
     gap: 8px;
   }
 
-  /* --- Widget statut serveur --- */
-  .status-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
+  /* --- Widget statut serveur (détail) --- */
+  .status-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .status-dot {
     width: 12px; height: 12px;
     border-radius: 50%;
     background: var(--text-dim);
     flex-shrink: 0;
-    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
   }
-  .status-dot.online {
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
+  .status-dot.online { background: var(--teal); animation: pulse 2s infinite; }
   .status-dot.offline { background: var(--danger); }
-
   @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5); }
     70% { box-shadow: 0 0 0 8px rgba(45, 212, 191, 0); }
     100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
   }
-
-  .status-hostname {
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .status-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .status-hostname { font-size: 16px; font-weight: 600; }
+  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .status-box {
     background: var(--bg-raised);
     border: 1px solid var(--line);
-    border-radius: 3px;
+    border-radius: 5px;
     padding: 10px 12px;
   }
-  .status-box .label {
-    font-size: 10.5px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 4px;
-  }
-  .status-box .value {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    color: var(--accent);
-  }
+  .status-box .label { font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .status-box .value { font-family: var(--font-mono); font-size: 15px; color: var(--teal); }
 
   /* --- Widget suivi de commande --- */
-  .order-input-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
+  .order-input-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .order-input-row input {
     flex: 1;
     background: var(--bg-void);
     border: 1px solid var(--line-bright);
     color: var(--text);
-    padding: 10px 12px;
-    border-radius: 3px;
+    padding: 11px 12px;
+    border-radius: 5px;
     font-family: var(--font-mono);
     font-size: 13px;
     outline: none;
   }
   .order-input-row input:focus { border-color: var(--accent); }
   .order-input-row input::placeholder { color: var(--text-dim); }
-
   .order-input-row button {
-    background: var(--bg-raised);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 0 18px;
-    border-radius: 3px;
-    font-family: var(--font-display);
-    font-weight: 500;
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 0 20px;
+    border-radius: 5px;
+    font-weight: 600;
     font-size: 13px;
     cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
+    transition: filter 0.15s;
   }
-  .order-input-row button:hover { border-color: var(--accent); color: var(--accent); }
-
+  .order-input-row button:hover { filter: brightness(1.1); }
   .order-result {
     background: var(--bg-raised);
     border: 1px solid var(--line);
     border-left: 3px solid var(--line-bright);
-    border-radius: 3px;
-    padding: 12px 14px;
-    font-size: 13px;
+    border-radius: 5px;
+    padding: 13px 15px;
+    font-size: 13.5px;
     line-height: 1.6;
     min-height: 20px;
   }
   .order-result.en_attente { border-left-color: var(--danger); }
   .order-result.en_cours { border-left-color: var(--warn); }
-  .order-result.attente_paiement { border-left-color: #eab308; }
-  .order-result.livree { border-left-color: var(--accent); }
+  .order-result.attente_paiement { border-left-color: var(--pay); }
+  .order-result.livree { border-left-color: var(--teal); }
+  .order-result .numero { font-family: var(--font-mono); color: var(--text); font-weight: 600; }
 
-  .order-result .numero {
-    font-family: var(--font-mono);
-    color: var(--text);
-    font-weight: 600;
+  /* --- Tableau de tickets --- */
+  .ticket-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
   }
+  .ticket-column h3 .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .ticket-column.en_attente h3 .dot { background: var(--danger); }
+  .ticket-column.en_cours h3 .dot { background: var(--warn); }
+  .ticket-column.attente_paiement h3 .dot { background: var(--pay); }
+  .ticket-column.livree h3 .dot { background: var(--teal); }
+
+  .ticket-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 12.5px;
+  }
+  .ticket-row:last-child { border-bottom: none; }
+  .ticket-numero { font-family: var(--font-mono); font-weight: 600; }
+  .ticket-transcript {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-decoration: underline;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .ticket-transcript:hover { color: var(--accent); }
+  .empty-note { color: var(--text-dim); font-size: 12.5px; }
 
   .footer-note {
     text-align: center;
     font-size: 11px;
     color: var(--text-dim);
     font-family: var(--font-mono);
+    padding: 20px 0 4px;
   }
-
-  /* --- Écran de connexion --- */
-  #loginScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    text-align: center;
-  }
-  #loginScreen h1 {
-    font-size: 20px;
-    font-weight: 700;
-  }
-  #loginScreen p {
-    color: var(--text-dim);
-    font-size: 13.5px;
-    max-width: 320px;
-  }
-  .discord-btn {
-    background: #5865f2;
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: filter 0.15s;
-  }
-  .discord-btn:hover { filter: brightness(1.1); }
-
-  /* --- Barre du haut (utilisateur connecté) --- */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 4px;
-  }
-  .topbar .who {
-    font-size: 12.5px;
-    color: var(--text-dim);
-  }
-  .topbar .who b { color: var(--text); }
-  .logout-link {
-    font-size: 12px;
-    color: var(--text-dim);
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .logout-link:hover { color: var(--danger); }
-
-  /* --- Tableau de tickets --- */
-  .ticket-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 13px;
-  }
-  .ticket-row:last-child { border-bottom: none; }
-  .ticket-numero {
-    font-family: var(--font-mono);
-    font-weight: 600;
-  }
-  .ticket-badge {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    padding: 3px 8px;
-    border-radius: 10px;
-    border: 1px solid;
-    white-space: nowrap;
-  }
-  .ticket-badge.en_attente { border-color: var(--danger); color: var(--danger); }
-  .ticket-badge.en_cours { border-color: var(--warn); color: var(--warn); }
-  .ticket-badge.attente_paiement { border-color: #eab308; color: #eab308; }
-  .ticket-badge.livree { border-color: var(--accent); color: var(--accent); }
-  .ticket-transcript {
-    font-size: 11.5px;
-    color: var(--text-dim);
-    text-decoration: underline;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .ticket-transcript:hover { color: var(--accent); }
-  .hidden { display: none !important; }
 
   /* --- Modale transcript --- */
   #transcriptOverlay {
@@ -290,7 +467,7 @@
   #transcriptModal {
     background: var(--bg-panel);
     border: 1px solid var(--line-bright);
-    border-radius: 4px;
+    border-radius: 8px;
     width: 100%;
     max-width: 760px;
     height: 82vh;
@@ -305,112 +482,198 @@
     padding: 14px 18px;
     border-bottom: 1px solid var(--line);
   }
-  #transcriptModal .modal-header h3 {
-    font-size: 14px;
-    font-family: var(--font-mono);
-  }
+  #transcriptModal .modal-header h3 { font-size: 14px; font-family: var(--font-mono); }
   #transcriptModal .modal-close {
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    font-size: 18px;
-    cursor: pointer;
-    line-height: 1;
+    background: none; border: none; color: var(--text-dim);
+    font-size: 18px; cursor: pointer; line-height: 1;
   }
   #transcriptModal .modal-close:hover { color: var(--danger); }
-  #transcriptModal .modal-body {
-    padding: 0;
-    overflow: hidden;
-    flex: 1;
-    display: flex;
-    position: relative;
-  }
+  #transcriptModal .modal-body { padding: 0; overflow: hidden; flex: 1; display: flex; position: relative; }
   #transcriptModal .modal-body .transcript-loading {
-    margin: auto;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-dim);
+    margin: auto; font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
   }
-  #transcriptModal .modal-body iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
+  #transcriptModal .modal-body iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  /* --- Responsive --- */
+  @media (max-width: 980px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .ticket-columns { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 860px) {
+    .menu-toggle { display: block; }
+    .sidebar {
+      position: fixed;
+      z-index: 40;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      box-shadow: 0 0 0 2000px rgba(0,0,0,0);
+    }
+    .sidebar.open {
+      transform: translateX(0);
+      box-shadow: 0 0 0 2000px rgba(0,0,0,0.55);
+    }
+    .page-content { padding: 20px 18px 50px; }
+    .topbar { padding: 16px 18px; }
+  }
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .ticket-columns { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-
-  <!-- Écran de connexion (affiché tant que non connecté) -->
-  <div class="card" id="loginScreen">
-    <div style="display:flex; flex-direction:column; align-items:center; gap:18px;">
-      <h1>Accès Staff</h1>
-      <p>Ce site est réservé à l'équipe de S.T.O.R.M. Studio. Connecte-toi avec ton compte Discord pour continuer.</p>
-      <button class="discord-btn" onclick="loginWithDiscord()">Se connecter avec Discord</button>
-    </div>
+<!-- Écran de connexion (affiché tant que non connecté) -->
+<div id="loginScreen">
+  <div class="login-card corner-frame">
+    <div class="brand-mark">S</div>
+    <h1>Accès Staff — S.T.O.R.M. Studio</h1>
+    <p>Ce panel est réservé à l'équipe. Connecte-toi avec ton compte Discord pour accéder au tableau de bord.</p>
+    <button class="discord-btn" onclick="loginWithDiscord()">Se connecter avec Discord</button>
   </div>
+</div>
 
-  <!-- Contenu principal (affiché une fois connecté) -->
-  <div id="mainContent" class="hidden" style="display:flex; flex-direction:column; gap:20px;">
+<!-- Application principale (affichée une fois connecté) -->
+<div id="mainContent" class="hidden app">
 
-    <div class="topbar">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="mark">S</div>
+      <div class="name">S.T.O.R.M. Studio<small>PANEL STAFF</small></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Tableau de bord</div>
+      <button class="nav-item active" data-page="overview">
+        <span class="icon">📊</span> Vue d'ensemble
+      </button>
+
+      <div class="nav-section-label">Communauté</div>
+      <button class="nav-item" data-page="orders">
+        <span class="icon">📦</span> Suivi de commande
+      </button>
+      <button class="nav-item" data-page="tickets">
+        <span class="icon">🎫</span> Tickets
+        <span class="count" id="navTicketCount">0</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-user">
       <div class="who">Connecté en tant que <b id="whoUsername"></b></div>
       <div class="logout-link" onclick="logout()">Se déconnecter</div>
     </div>
+  </aside>
 
-    <div class="card">
-      <h2>🛰️ Statut du serveur</h2>
-      <div class="status-row">
-        <div class="status-dot" id="statusDot"></div>
-        <div class="status-hostname" id="statusHostname">Connexion...</div>
-      </div>
-      <div class="status-grid">
-        <div class="status-box">
-          <div class="label">Joueurs</div>
-          <div class="value" id="statusPlayers">—</div>
-        </div>
-        <div class="status-box">
-          <div class="label">État</div>
-          <div class="value" id="statusState">—</div>
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div>
+          <h1 id="pageTitle">Vue d'ensemble</h1>
+          <div class="subtitle" id="pageSubtitle">Statut du serveur, commandes et tickets — au même endroit.</div>
         </div>
       </div>
-    </div>
+      <button class="refresh-btn" onclick="refreshAll()">↻ Actualiser</button>
+    </header>
 
-    <div class="card">
-      <h2>📦 Suivi de commande</h2>
-      <div class="order-input-row">
-        <input type="text" id="orderInput" placeholder="CMD-1234" maxlength="10">
-        <button onclick="checkOrder()">Vérifier</button>
-      </div>
-      <div class="order-result" id="orderResult">Entre un numéro de commande ci-dessus.</div>
-    </div>
+    <div class="page-content">
 
-    <div class="card">
-      <h2>🔴 En attente</h2>
-      <div id="ticketsEnAttente">Chargement...</div>
-    </div>
+      <!-- Page : Vue d'ensemble -->
+      <section class="page" id="page-overview">
+        <div class="banner">
+          <div class="banner-content">
+            <h2>S.T.O.R.M. Studio</h2>
+            <p>Statut serveur, suivi des commandes et gestion des tickets — tout ton serveur de développement, géré depuis un seul endroit.</p>
+          </div>
+        </div>
 
-    <div class="card">
-      <h2>🟠 En cours de traitement</h2>
-      <div id="ticketsEnCours">Chargement...</div>
-    </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div class="value" id="statPlayers">—</div>
+              <div class="label">Joueurs connectés</div>
+            </div>
+            <div class="stat-icon teal" id="statPlayersIcon">🛰️</div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="value" id="statServerState">—</div>
+              <div class="label">État du serveur</div>
+            </div>
+            <div class="stat-icon purple">🔌</div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="value" id="statTicketsOpen">0</div>
+              <div class="label">Tickets ouverts</div>
+            </div>
+            <div class="stat-icon warn">🎫</div>
+          </div>
+          <div class="stat-card">
+            <div>
+              <div class="value" id="statDelivered">0</div>
+              <div class="label">Commandes livrées</div>
+            </div>
+            <div class="stat-icon teal">✅</div>
+          </div>
+        </div>
 
-    <div class="card">
-      <h2>🟡 En attente de paiement</h2>
-      <div id="ticketsAttentePaiement">Chargement...</div>
-    </div>
+        <div class="card">
+          <h3>🛰️ Détail du serveur</h3>
+          <div class="status-row">
+            <div class="status-dot" id="statusDot"></div>
+            <div class="status-hostname" id="statusHostname">Connexion...</div>
+          </div>
+          <div class="status-grid">
+            <div class="status-box">
+              <div class="label">Joueurs</div>
+              <div class="value" id="statusPlayers">—</div>
+            </div>
+            <div class="status-box">
+              <div class="label">État</div>
+              <div class="value" id="statusState">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <div class="card">
-      <h2>🟢 Livrées</h2>
-      <div id="ticketsLivrees">Chargement...</div>
-    </div>
+      <!-- Page : Suivi de commande -->
+      <section class="page hidden" id="page-orders">
+        <div class="card">
+          <h3>📦 Suivi de commande</h3>
+          <div class="order-input-row">
+            <input type="text" id="orderInput" placeholder="CMD-1234" maxlength="10">
+            <button onclick="checkOrder()">Vérifier</button>
+          </div>
+          <div class="order-result" id="orderResult">Entre un numéro de commande ci-dessus.</div>
+        </div>
+      </section>
 
+      <!-- Page : Tickets -->
+      <section class="page hidden" id="page-tickets">
+        <div class="ticket-columns">
+          <div class="card ticket-column en_attente">
+            <h3><span class="dot"></span> En attente</h3>
+            <div id="ticketsEnAttente">Chargement...</div>
+          </div>
+          <div class="card ticket-column en_cours">
+            <h3><span class="dot"></span> En cours de traitement</h3>
+            <div id="ticketsEnCours">Chargement...</div>
+          </div>
+          <div class="card ticket-column attente_paiement">
+            <h3><span class="dot"></span> En attente de paiement</h3>
+            <div id="ticketsAttentePaiement">Chargement...</div>
+          </div>
+          <div class="card ticket-column livree">
+            <h3><span class="dot"></span> Livrées</h3>
+            <div id="ticketsLivrees">Chargement...</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-note">S.T.O.R.M. Studio</div>
+    </div>
   </div>
-
-  <div class="footer-note">S.T.O.R.M. Studio</div>
-
 </div>
 
 <!-- Modale d'affichage du transcript -->
@@ -430,6 +693,12 @@
   // ⚠️ Remplace par l'URL de ton bot Render
   const BOT_API_URL = 'https://fivem-bot-li92.onrender.com';
 
+  const PAGE_META = {
+    overview: { title: 'Vue d\'ensemble', subtitle: 'Statut du serveur, commandes et tickets — au même endroit.' },
+    orders: { title: 'Suivi de commande', subtitle: 'Recherche une commande par son numéro CMD-XXXX.' },
+    tickets: { title: 'Tickets', subtitle: 'Tous les tickets, classés par statut.' },
+  };
+
   function loginWithDiscord() {
     window.location.href = `${BOT_API_URL}/auth/discord/login`;
   }
@@ -437,6 +706,31 @@
   async function logout() {
     await fetch(`${BOT_API_URL}/auth/logout`, { method: 'POST', credentials: 'include' });
     window.location.reload();
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function goToPage(pageId) {
+    document.querySelectorAll('.page').forEach((el) => el.classList.add('hidden'));
+    document.getElementById(`page-${pageId}`).classList.remove('hidden');
+
+    document.querySelectorAll('.nav-item').forEach((el) => el.classList.remove('active'));
+    document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add('active');
+
+    document.getElementById('pageTitle').textContent = PAGE_META[pageId].title;
+    document.getElementById('pageSubtitle').textContent = PAGE_META[pageId].subtitle;
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  document.querySelectorAll('.nav-item').forEach((btn) => {
+    btn.addEventListener('click', () => goToPage(btn.dataset.page));
+  });
+
+  function refreshAll() {
+    loadStatus();
+    loadTickets();
   }
 
   async function checkLogin() {
@@ -448,8 +742,7 @@
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
         document.getElementById('whoUsername').textContent = data.username;
-        loadStatus();
-        loadTickets();
+        refreshAll();
       } else {
         document.getElementById('loginScreen').classList.remove('hidden');
         document.getElementById('mainContent').classList.add('hidden');
@@ -465,6 +758,8 @@
     const hostname = document.getElementById('statusHostname');
     const players = document.getElementById('statusPlayers');
     const state = document.getElementById('statusState');
+    const statPlayers = document.getElementById('statPlayers');
+    const statServerState = document.getElementById('statServerState');
 
     try {
       const res = await fetch(`${BOT_API_URL}/api/status`);
@@ -475,15 +770,21 @@
         hostname.textContent = data.hostname || 'Serveur FiveM';
         players.textContent = `${data.players} / ${data.maxPlayers}`;
         state.textContent = 'En ligne';
+        statPlayers.textContent = `${data.players} / ${data.maxPlayers}`;
+        statServerState.textContent = 'En ligne';
       } else {
         dot.className = 'status-dot offline';
         hostname.textContent = 'Serveur fermé';
         players.textContent = '—';
         state.textContent = 'Hors ligne';
+        statPlayers.textContent = '—';
+        statServerState.textContent = 'Hors ligne';
       }
     } catch (err) {
       dot.className = 'status-dot offline';
       hostname.textContent = 'Erreur de connexion';
+      statPlayers.textContent = '—';
+      statServerState.textContent = 'Erreur';
     }
   }
 
@@ -523,7 +824,6 @@
     return `
       <div class="ticket-row">
         <span class="ticket-numero">${t.numero}</span>
-        <span class="ticket-badge ${t.statut}">${t.statutLabel}</span>
         ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.numero}')">Voir transcript</span>` : '<span></span>'}
       </div>
     `;
@@ -554,19 +854,24 @@
 
       zoneEnAttente.innerHTML = enAttente.length > 0
         ? enAttente.map(renderTicketRow).join('')
-        : 'Aucun ticket en attente.';
+        : '<div class="empty-note">Aucun ticket en attente.</div>';
 
       zoneEnCours.innerHTML = enCours.length > 0
         ? enCours.map(renderTicketRow).join('')
-        : 'Aucun ticket en cours.';
+        : '<div class="empty-note">Aucun ticket en cours.</div>';
 
       zoneAttentePaiement.innerHTML = attentePaiement.length > 0
         ? attentePaiement.map(renderTicketRow).join('')
-        : 'Aucun ticket en attente de paiement.';
+        : '<div class="empty-note">Aucun ticket en attente de paiement.</div>';
 
       zoneLivrees.innerHTML = livrees.length > 0
         ? livrees.map(renderTicketRow).join('')
-        : 'Aucune commande livrée.';
+        : '<div class="empty-note">Aucune commande livrée.</div>';
+
+      const ticketsOpenCount = enAttente.length + enCours.length + attentePaiement.length;
+      document.getElementById('statTicketsOpen').textContent = ticketsOpenCount;
+      document.getElementById('statDelivered').textContent = livrees.length;
+      document.getElementById('navTicketCount').textContent = ticketsOpenCount;
     } catch (err) {
       zoneEnAttente.textContent = 'Erreur lors du chargement des tickets.';
       zoneEnCours.textContent = 'Erreur lors du chargement des tickets.';
