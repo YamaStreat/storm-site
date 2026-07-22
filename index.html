@@ -96,10 +96,7 @@
   .discord-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
   /* --- Layout principal --- */
-  .app {
-    display: flex;
-    min-height: 100vh;
-  }
+  .app { display: flex; min-height: 100vh; }
 
   /* --- Barre latérale --- */
   .sidebar {
@@ -128,228 +125,109 @@
     font-weight: 700; font-size: 14px; color: white;
     flex-shrink: 0;
   }
-  .sidebar-logo .name {
-    font-weight: 700;
-    font-size: 14.5px;
-    line-height: 1.25;
-  }
+  .sidebar-logo .name { font-weight: 700; font-size: 14.5px; line-height: 1.25; }
   .sidebar-logo .name small {
-    display: block;
-    font-weight: 500;
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 0.5px;
+    display: block; font-weight: 500; font-size: 10px; color: var(--text-dim); letter-spacing: 0.5px;
   }
 
-  .sidebar-nav {
-    flex: 1;
-    overflow-y: auto;
-    padding: 18px 12px;
-  }
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 18px 12px; }
   .nav-section-label {
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    padding: 0 10px;
-    margin: 18px 0 8px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 1px; color: var(--text-dim);
+    text-transform: uppercase; padding: 0 10px; margin: 18px 0 8px;
   }
   .nav-section-label:first-child { margin-top: 0; }
   .nav-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    text-align: left;
-    padding: 9px 10px;
-    border-radius: 6px;
-    font-size: 13.5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.12s, color 0.12s;
+    width: 100%; display: flex; align-items: center; gap: 10px;
+    background: none; border: none; color: var(--text-dim); text-align: left;
+    padding: 9px 10px; border-radius: 6px; font-size: 13.5px; font-weight: 500;
+    cursor: pointer; transition: background 0.12s, color 0.12s;
   }
   .nav-item:hover { background: var(--bg-raised); color: var(--text); }
   .nav-item.active { background: var(--accent-soft); color: var(--accent); }
   .nav-item .icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
   .nav-item .count {
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    background: var(--bg-raised);
-    border: 1px solid var(--line-bright);
-    color: var(--text-dim);
-    padding: 1px 7px;
-    border-radius: 10px;
+    margin-left: auto; font-family: var(--font-mono); font-size: 11px;
+    background: var(--bg-raised); border: 1px solid var(--line-bright); color: var(--text-dim);
+    padding: 1px 7px; border-radius: 10px;
   }
   .nav-item.active .count { border-color: var(--accent); color: var(--accent); }
+  .nav-item .count.warn { border-color: var(--pay); color: var(--pay); }
 
-  .sidebar-user {
-    border-top: 1px solid var(--line);
-    padding: 14px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .sidebar-user { border-top: 1px solid var(--line); padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
   .sidebar-user .who { font-size: 12px; color: var(--text-dim); }
   .sidebar-user .who b { color: var(--text); display: block; font-size: 13px; }
-  .logout-link {
-    font-size: 12px;
-    color: var(--text-dim);
-    cursor: pointer;
-    text-decoration: underline;
-    width: fit-content;
-  }
+  .logout-link { font-size: 12px; color: var(--text-dim); cursor: pointer; text-decoration: underline; width: fit-content; }
   .logout-link:hover { color: var(--danger); }
 
   .menu-toggle {
-    display: none;
-    background: var(--bg-raised);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    width: 34px; height: 34px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
+    display: none; background: var(--bg-raised); border: 1px solid var(--line-bright); color: var(--text);
+    width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 16px;
   }
 
   /* --- Contenu principal --- */
-  .main {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 20px 32px;
-    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 20px 32px; border-bottom: 1px solid var(--line);
   }
   .topbar-left { display: flex; align-items: center; gap: 14px; }
   .topbar h1 { font-size: 21px; font-weight: 700; }
   .topbar .subtitle { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
   .refresh-btn {
-    background: var(--bg-raised);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    transition: border-color 0.15s, color 0.15s;
+    background: var(--bg-raised); border: 1px solid var(--line-bright); color: var(--text);
+    padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; gap: 6px; transition: border-color 0.15s, color 0.15s;
   }
   .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   .page-content { padding: 28px 32px 60px; }
   .page { display: flex; flex-direction: column; gap: 20px; }
 
-  /* --- Bannière (Vue d'ensemble) --- */
+  /* --- Bannière --- */
   .banner {
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
     background: linear-gradient(160deg, #171227 0%, #0e1420 60%, #0a0c11 100%);
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    padding: 34px 32px;
+    border: 1px solid var(--line-bright); border-radius: 8px; padding: 34px 32px;
   }
   .banner::before {
-    content: "";
-    position: absolute;
-    inset: -40%;
+    content: ""; position: absolute; inset: -40%;
     background: conic-gradient(from 0deg, transparent 0deg, rgba(124,92,255,0.16) 18deg, transparent 40deg);
     animation: radar-sweep 7s linear infinite;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .banner::before { animation: none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .banner::before { animation: none; } }
   @keyframes radar-sweep { to { transform: rotate(360deg); } }
   .banner-content { position: relative; z-index: 1; }
-  .banner h2 {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .banner p {
-    color: var(--text-dim);
-    font-size: 13.5px;
-    margin-top: 6px;
-    max-width: 460px;
-  }
+  .banner h2 { font-size: 26px; font-weight: 700; letter-spacing: 0.5px; }
+  .banner p { color: var(--text-dim); font-size: 13.5px; margin-top: 6px; max-width: 460px; }
 
   /* --- Cartes de stats --- */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-  }
+  .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
   .stat-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    position: relative;
+    background: var(--bg-panel); border: 1px solid var(--line-bright); border-radius: 8px;
+    padding: 18px 20px; display: flex; align-items: flex-start; justify-content: space-between;
   }
-  .stat-card .value {
-    font-family: var(--font-mono);
-    font-size: 24px;
-    font-weight: 600;
-  }
-  .stat-card .label {
-    font-size: 11.5px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-top: 6px;
-  }
+  .stat-card .value { font-family: var(--font-mono); font-size: 22px; font-weight: 600; }
+  .stat-card .label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
   .stat-icon {
-    width: 34px; height: 34px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
+    width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
   }
   .stat-icon.purple { background: rgba(124,92,255,0.16); color: var(--accent); }
   .stat-icon.teal { background: rgba(45,212,191,0.14); color: var(--teal); }
   .stat-icon.warn { background: rgba(245,165,36,0.14); color: var(--warn); }
   .stat-icon.danger { background: rgba(245,84,108,0.14); color: var(--danger); }
+  .stat-icon.pay { background: rgba(234,179,8,0.14); color: var(--pay); }
 
   /* --- Cartes génériques --- */
-  .card {
-    background: var(--bg-panel);
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    padding: 22px 24px;
-  }
+  .card { background: var(--bg-panel); border: 1px solid var(--line-bright); border-radius: 8px; padding: 22px 24px; }
   .card h3 {
-    font-size: 12.5px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-dim);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 12.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-dim);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
   }
 
   /* --- Widget statut serveur (détail) --- */
   .status-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .status-dot {
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--text-dim);
-    flex-shrink: 0;
-  }
+  .status-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; }
   .status-dot.online { background: var(--teal); animation: pulse 2s infinite; }
   .status-dot.offline { background: var(--danger); }
   @keyframes pulse {
@@ -358,52 +236,27 @@
     100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
   }
   .status-hostname { font-size: 16px; font-weight: 600; }
-  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .status-box {
-    background: var(--bg-raised);
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 10px 12px;
-  }
+  .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .status-box { background: var(--bg-raised); border: 1px solid var(--line); border-radius: 5px; padding: 10px 12px; }
   .status-box .label { font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
-  .status-box .value { font-family: var(--font-mono); font-size: 15px; color: var(--teal); }
+  .status-box .value { font-family: var(--font-mono); font-size: 14px; color: var(--teal); word-break: break-word; }
 
   /* --- Widget suivi de commande --- */
   .order-input-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .order-input-row input {
-    flex: 1;
-    background: var(--bg-void);
-    border: 1px solid var(--line-bright);
-    color: var(--text);
-    padding: 11px 12px;
-    border-radius: 5px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    outline: none;
+    flex: 1; background: var(--bg-void); border: 1px solid var(--line-bright); color: var(--text);
+    padding: 11px 12px; border-radius: 5px; font-family: var(--font-mono); font-size: 13px; outline: none;
   }
   .order-input-row input:focus { border-color: var(--accent); }
   .order-input-row input::placeholder { color: var(--text-dim); }
   .order-input-row button {
-    background: var(--accent);
-    border: none;
-    color: white;
-    padding: 0 20px;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 13px;
-    cursor: pointer;
-    transition: filter 0.15s;
+    background: var(--accent); border: none; color: white; padding: 0 20px; border-radius: 5px;
+    font-weight: 600; font-size: 13px; cursor: pointer; transition: filter 0.15s;
   }
   .order-input-row button:hover { filter: brightness(1.1); }
   .order-result {
-    background: var(--bg-raised);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--line-bright);
-    border-radius: 5px;
-    padding: 13px 15px;
-    font-size: 13.5px;
-    line-height: 1.6;
-    min-height: 20px;
+    background: var(--bg-raised); border: 1px solid var(--line); border-left: 3px solid var(--line-bright);
+    border-radius: 5px; padding: 13px 15px; font-size: 13.5px; line-height: 1.6; min-height: 20px;
   }
   .order-result.en_attente { border-left-color: var(--danger); }
   .order-result.en_cours { border-left-color: var(--warn); }
@@ -411,12 +264,23 @@
   .order-result.livree { border-left-color: var(--teal); }
   .order-result .numero { font-family: var(--font-mono); color: var(--text); font-weight: 600; }
 
-  /* --- Tableau de tickets --- */
-  .ticket-columns {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
+  /* --- Barre recherche + onglets Tickets --- */
+  .tickets-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .tabs { display: flex; gap: 4px; background: var(--bg-panel); border: 1px solid var(--line-bright); border-radius: 7px; padding: 3px; }
+  .tab-btn {
+    background: none; border: none; color: var(--text-dim); padding: 7px 16px; border-radius: 5px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.12s, color 0.12s;
   }
+  .tab-btn.active { background: var(--accent-soft); color: var(--accent); }
+  .search-input {
+    background: var(--bg-panel); border: 1px solid var(--line-bright); color: var(--text);
+    padding: 9px 14px; border-radius: 7px; font-size: 13px; outline: none; min-width: 240px;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--text-dim); }
+
+  /* --- Tableau de tickets --- */
+  .ticket-columns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
   .ticket-column h3 .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .ticket-column.en_attente h3 .dot { background: var(--danger); }
   .ticket-column.en_cours h3 .dot { background: var(--warn); }
@@ -424,96 +288,74 @@
   .ticket-column.livree h3 .dot { background: var(--teal); }
 
   .ticket-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 12.5px;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 12.5px;
   }
   .ticket-row:last-child { border-bottom: none; }
   .ticket-numero { font-family: var(--font-mono); font-weight: 600; }
+  .ticket-user { color: var(--text-dim); font-size: 11px; display: block; margin-top: 1px; }
   .ticket-transcript {
-    font-size: 11px;
-    color: var(--text-dim);
-    text-decoration: underline;
-    cursor: pointer;
-    flex-shrink: 0;
-    white-space: nowrap;
+    font-size: 11px; color: var(--text-dim); text-decoration: underline; cursor: pointer;
+    flex-shrink: 0; white-space: nowrap;
   }
   .ticket-transcript:hover { color: var(--accent); }
   .empty-note { color: var(--text-dim); font-size: 12.5px; }
 
-  .footer-note {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-dim);
-    font-family: var(--font-mono);
-    padding: 20px 0 4px;
+  /* --- Candidatures whitelist --- */
+  .whitelist-item {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+    padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 13px;
   }
+  .whitelist-item:last-child { border-bottom: none; }
+  .whitelist-info b { font-size: 13.5px; }
+  .whitelist-info .meta { color: var(--text-dim); font-size: 12px; margin-top: 4px; line-height: 1.6; }
+  .whitelist-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .wl-btn {
+    border: none; padding: 7px 14px; border-radius: 5px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .wl-btn:hover { filter: brightness(1.15); }
+  .wl-btn.accept { background: var(--teal); color: #072623; }
+  .wl-btn.refuse { background: var(--danger); color: white; }
+  .wl-status { font-size: 11.5px; padding: 3px 9px; border-radius: 10px; border: 1px solid; white-space: nowrap; }
+  .wl-status.accepted { border-color: var(--teal); color: var(--teal); }
+  .wl-status.refused { border-color: var(--danger); color: var(--danger); }
+
+  .footer-note { text-align: center; font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); padding: 20px 0 4px; }
 
   /* --- Modale transcript --- */
   #transcriptOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(4, 6, 10, 0.75);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-    padding: 20px;
+    position: fixed; inset: 0; background: rgba(4, 6, 10, 0.75); display: flex;
+    align-items: center; justify-content: center; z-index: 50; padding: 20px;
   }
   #transcriptModal {
-    background: var(--bg-panel);
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    width: 100%;
-    max-width: 760px;
-    height: 82vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    background: var(--bg-panel); border: 1px solid var(--line-bright); border-radius: 8px;
+    width: 100%; max-width: 760px; height: 82vh; display: flex; flex-direction: column; overflow: hidden;
   }
-  #transcriptModal .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--line);
-  }
+  #transcriptModal .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); }
   #transcriptModal .modal-header h3 { font-size: 14px; font-family: var(--font-mono); }
-  #transcriptModal .modal-close {
-    background: none; border: none; color: var(--text-dim);
-    font-size: 18px; cursor: pointer; line-height: 1;
-  }
+  #transcriptModal .modal-close { background: none; border: none; color: var(--text-dim); font-size: 18px; cursor: pointer; line-height: 1; }
   #transcriptModal .modal-close:hover { color: var(--danger); }
   #transcriptModal .modal-body { padding: 0; overflow: hidden; flex: 1; display: flex; position: relative; }
-  #transcriptModal .modal-body .transcript-loading {
-    margin: auto; font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
-  }
+  #transcriptModal .modal-body .transcript-loading { margin: auto; font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
   #transcriptModal .modal-body iframe { width: 100%; height: 100%; border: none; display: block; }
 
   /* --- Responsive --- */
+  @media (max-width: 1180px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 980px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .ticket-columns { grid-template-columns: repeat(2, 1fr); }
+    .status-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 860px) {
     .menu-toggle { display: block; }
     .sidebar {
-      position: fixed;
-      z-index: 40;
-      transform: translateX(-100%);
-      transition: transform 0.2s ease;
-      box-shadow: 0 0 0 2000px rgba(0,0,0,0);
+      position: fixed; z-index: 40; transform: translateX(-100%); transition: transform 0.2s ease;
     }
-    .sidebar.open {
-      transform: translateX(0);
-      box-shadow: 0 0 0 2000px rgba(0,0,0,0.55);
-    }
+    .sidebar.open { transform: translateX(0); box-shadow: 0 0 0 2000px rgba(0,0,0,0.55); }
     .page-content { padding: 20px 18px 50px; }
     .topbar { padding: 16px 18px; }
+    .search-input { min-width: 0; flex: 1; }
   }
   @media (max-width: 600px) {
     .stats-grid { grid-template-columns: 1fr; }
@@ -523,7 +365,7 @@
 </head>
 <body>
 
-<!-- Écran de connexion (affiché tant que non connecté) -->
+<!-- Écran de connexion -->
 <div id="loginScreen">
   <div class="login-card corner-frame">
     <div class="brand-mark">S</div>
@@ -533,7 +375,7 @@
   </div>
 </div>
 
-<!-- Application principale (affichée une fois connecté) -->
+<!-- Application principale -->
 <div id="mainContent" class="hidden app">
 
   <aside class="sidebar" id="sidebar">
@@ -555,6 +397,10 @@
       <button class="nav-item" data-page="tickets">
         <span class="icon">🎫</span> Tickets
         <span class="count" id="navTicketCount">0</span>
+      </button>
+      <button class="nav-item" data-page="whitelist">
+        <span class="icon">✅</span> Candidatures
+        <span class="count warn" id="navWhitelistCount">0</span>
       </button>
     </nav>
 
@@ -589,32 +435,24 @@
 
         <div class="stats-grid">
           <div class="stat-card">
-            <div>
-              <div class="value" id="statPlayers">—</div>
-              <div class="label">Joueurs connectés</div>
-            </div>
-            <div class="stat-icon teal" id="statPlayersIcon">🛰️</div>
+            <div><div class="value" id="statTicketsOpen">—</div><div class="label">Tickets ouverts</div></div>
+            <div class="stat-icon purple">🎫</div>
           </div>
           <div class="stat-card">
-            <div>
-              <div class="value" id="statServerState">—</div>
-              <div class="label">État du serveur</div>
-            </div>
-            <div class="stat-icon purple">🔌</div>
+            <div><div class="value" id="statTicketsClosed">—</div><div class="label">Tickets fermés (total)</div></div>
+            <div class="stat-icon teal">📁</div>
           </div>
           <div class="stat-card">
-            <div>
-              <div class="value" id="statTicketsOpen">0</div>
-              <div class="label">Tickets ouverts</div>
-            </div>
-            <div class="stat-icon warn">🎫</div>
+            <div><div class="value" id="statAvgResponse">—</div><div class="label">Temps de réponse moyen</div></div>
+            <div class="stat-icon warn">⏱️</div>
           </div>
           <div class="stat-card">
-            <div>
-              <div class="value" id="statDelivered">0</div>
-              <div class="label">Commandes livrées</div>
-            </div>
+            <div><div class="value" id="statDeliveredMonth">—</div><div class="label">Livrées ce mois-ci</div></div>
             <div class="stat-icon teal">✅</div>
+          </div>
+          <div class="stat-card">
+            <div><div class="value" id="statTotalOrders">—</div><div class="label">Commandes suivies (total)</div></div>
+            <div class="stat-icon purple">📦</div>
           </div>
         </div>
 
@@ -625,14 +463,10 @@
             <div class="status-hostname" id="statusHostname">Connexion...</div>
           </div>
           <div class="status-grid">
-            <div class="status-box">
-              <div class="label">Joueurs</div>
-              <div class="value" id="statusPlayers">—</div>
-            </div>
-            <div class="status-box">
-              <div class="label">État</div>
-              <div class="value" id="statusState">—</div>
-            </div>
+            <div class="status-box"><div class="label">Joueurs</div><div class="value" id="statusPlayers">—</div></div>
+            <div class="status-box"><div class="label">État</div><div class="value" id="statusState">—</div></div>
+            <div class="status-box"><div class="label">Map</div><div class="value" id="statusMap">—</div></div>
+            <div class="status-box"><div class="label">Mode de jeu</div><div class="value" id="statusMode">—</div></div>
           </div>
         </div>
       </section>
@@ -651,6 +485,14 @@
 
       <!-- Page : Tickets -->
       <section class="page hidden" id="page-tickets">
+        <div class="tickets-toolbar">
+          <div class="tabs">
+            <button class="tab-btn active" data-ticket-tab="ouverts" onclick="setTicketTab('ouverts')">Ouverts</button>
+            <button class="tab-btn" data-ticket-tab="fermes" onclick="setTicketTab('fermes')">Fermés</button>
+          </div>
+          <input type="text" class="search-input" id="ticketSearch" placeholder="Rechercher par numéro ou pseudo..." oninput="renderTickets()">
+        </div>
+
         <div class="ticket-columns">
           <div class="card ticket-column en_attente">
             <h3><span class="dot"></span> En attente</h3>
@@ -669,6 +511,23 @@
             <div id="ticketsLivrees">Chargement...</div>
           </div>
         </div>
+
+        <div class="card">
+          <h3>💬 Support Discord</h3>
+          <div id="ticketsSupportDiscord">Chargement...</div>
+        </div>
+      </section>
+
+      <!-- Page : Candidatures whitelist -->
+      <section class="page hidden" id="page-whitelist">
+        <div class="card">
+          <h3>⏳ En attente de décision</h3>
+          <div id="whitelistPending">Chargement...</div>
+        </div>
+        <div class="card">
+          <h3>📜 Historique des décisions</h3>
+          <div id="whitelistHistory">Chargement...</div>
+        </div>
       </section>
 
       <div class="footer-note">S.T.O.R.M. Studio</div>
@@ -676,7 +535,7 @@
   </div>
 </div>
 
-<!-- Modale d'affichage du transcript -->
+<!-- Modale transcript -->
 <div id="transcriptOverlay" class="hidden" onclick="if(event.target===this) closeTranscript()">
   <div id="transcriptModal">
     <div class="modal-header">
@@ -697,7 +556,11 @@
     overview: { title: 'Vue d\'ensemble', subtitle: 'Statut du serveur, commandes et tickets — au même endroit.' },
     orders: { title: 'Suivi de commande', subtitle: 'Recherche une commande par son numéro CMD-XXXX.' },
     tickets: { title: 'Tickets', subtitle: 'Tous les tickets, classés par statut.' },
+    whitelist: { title: 'Candidatures', subtitle: 'Candidatures whitelist en attente et historique des décisions.' },
   };
+
+  let allTickets = [];
+  let currentTicketTab = 'ouverts';
 
   function loginWithDiscord() {
     window.location.href = `${BOT_API_URL}/auth/discord/login`;
@@ -728,9 +591,19 @@
     btn.addEventListener('click', () => goToPage(btn.dataset.page));
   });
 
+  function setTicketTab(tab) {
+    currentTicketTab = tab;
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.ticketTab === tab);
+    });
+    renderTickets();
+  }
+
   function refreshAll() {
     loadStatus();
     loadTickets();
+    loadStats();
+    loadWhitelist();
   }
 
   async function checkLogin() {
@@ -758,8 +631,8 @@
     const hostname = document.getElementById('statusHostname');
     const players = document.getElementById('statusPlayers');
     const state = document.getElementById('statusState');
-    const statPlayers = document.getElementById('statPlayers');
-    const statServerState = document.getElementById('statServerState');
+    const map = document.getElementById('statusMap');
+    const mode = document.getElementById('statusMode');
 
     try {
       const res = await fetch(`${BOT_API_URL}/api/status`);
@@ -770,21 +643,38 @@
         hostname.textContent = data.hostname || 'Serveur FiveM';
         players.textContent = `${data.players} / ${data.maxPlayers}`;
         state.textContent = 'En ligne';
-        statPlayers.textContent = `${data.players} / ${data.maxPlayers}`;
-        statServerState.textContent = 'En ligne';
+        map.textContent = data.map || '—';
+        mode.textContent = data.gametype || '—';
       } else {
         dot.className = 'status-dot offline';
         hostname.textContent = 'Serveur fermé';
         players.textContent = '—';
         state.textContent = 'Hors ligne';
-        statPlayers.textContent = '—';
-        statServerState.textContent = 'Hors ligne';
+        map.textContent = '—';
+        mode.textContent = '—';
       }
     } catch (err) {
       dot.className = 'status-dot offline';
       hostname.textContent = 'Erreur de connexion';
-      statPlayers.textContent = '—';
-      statServerState.textContent = 'Erreur';
+      players.textContent = '—';
+      map.textContent = '—';
+      mode.textContent = '—';
+    }
+  }
+
+  async function loadStats() {
+    try {
+      const res = await fetch(`${BOT_API_URL}/api/stats`, { credentials: 'include' });
+      const data = await res.json();
+      if (!data.ok) return;
+
+      document.getElementById('statTicketsOpen').textContent = data.ticketsCurrentlyOpen;
+      document.getElementById('statTicketsClosed').textContent = data.ticketsClosedTotal;
+      document.getElementById('statAvgResponse').textContent = data.avgResponseLabel;
+      document.getElementById('statDeliveredMonth').textContent = data.deliveriesThisMonth;
+      document.getElementById('statTotalOrders').textContent = data.totalOrdersTracked;
+    } catch (err) {
+      // Silencieux : les cartes gardent leur dernière valeur connue
     }
   }
 
@@ -823,60 +713,137 @@
   function renderTicketRow(t) {
     return `
       <div class="ticket-row">
-        <span class="ticket-numero">${t.numero}</span>
+        <div>
+          <span class="ticket-numero">${t.numero}</span>
+          ${t.username ? `<span class="ticket-user">${t.username}</span>` : ''}
+        </div>
         ${t.hasTranscript ? `<span class="ticket-transcript" onclick="openTranscript('${t.numero}')">Voir transcript</span>` : '<span></span>'}
       </div>
     `;
   }
 
-  async function loadTickets() {
+  function matchesSearch(t, query) {
+    if (!query) return true;
+    const q = query.toLowerCase();
+    return t.numero.toLowerCase().includes(q) || (t.username || '').toLowerCase().includes(q);
+  }
+
+  function renderTickets() {
+    const query = document.getElementById('ticketSearch').value.trim();
+    const wantClosed = currentTicketTab === 'fermes';
+
+    const filtered = allTickets.filter((t) => t.isClosed === wantClosed && matchesSearch(t, query));
+
+    const commandeTickets = filtered.filter((t) => t.type === 'commande');
+    const supportTickets = filtered.filter((t) => t.type === 'discord');
+
     const zoneEnAttente = document.getElementById('ticketsEnAttente');
     const zoneEnCours = document.getElementById('ticketsEnCours');
     const zoneAttentePaiement = document.getElementById('ticketsAttentePaiement');
     const zoneLivrees = document.getElementById('ticketsLivrees');
+    const zoneSupport = document.getElementById('ticketsSupportDiscord');
 
+    const enAttente = commandeTickets.filter((t) => t.statut === 'en_attente');
+    const enCours = commandeTickets.filter((t) => t.statut === 'en_cours');
+    const attentePaiement = commandeTickets.filter((t) => t.statut === 'attente_paiement');
+    const livrees = commandeTickets.filter((t) => t.statut === 'livree');
+
+    zoneEnAttente.innerHTML = enAttente.length > 0 ? enAttente.map(renderTicketRow).join('') : '<div class="empty-note">Aucun ticket.</div>';
+    zoneEnCours.innerHTML = enCours.length > 0 ? enCours.map(renderTicketRow).join('') : '<div class="empty-note">Aucun ticket.</div>';
+    zoneAttentePaiement.innerHTML = attentePaiement.length > 0 ? attentePaiement.map(renderTicketRow).join('') : '<div class="empty-note">Aucun ticket.</div>';
+    zoneLivrees.innerHTML = livrees.length > 0 ? livrees.map(renderTicketRow).join('') : '<div class="empty-note">Aucun ticket.</div>';
+    zoneSupport.innerHTML = supportTickets.length > 0 ? supportTickets.map(renderTicketRow).join('') : '<div class="empty-note">Aucun ticket support Discord.</div>';
+
+    const openCount = allTickets.filter((t) => !t.isClosed).length;
+    document.getElementById('navTicketCount').textContent = openCount;
+  }
+
+  async function loadTickets() {
     try {
       const res = await fetch(`${BOT_API_URL}/api/tickets`, { credentials: 'include' });
       const data = await res.json();
+      if (!data.ok) return;
+      allTickets = data.tickets;
+      renderTickets();
+    } catch (err) {
+      // Silencieux : on garde le dernier état connu à l'écran
+    }
+  }
 
+  function renderWhitelistPending(applications) {
+    const zone = document.getElementById('whitelistPending');
+    const pending = applications.filter((a) => a.status === 'pending');
+
+    document.getElementById('navWhitelistCount').textContent = pending.length;
+
+    zone.innerHTML = pending.length > 0
+      ? pending.map((a) => `
+        <div class="whitelist-item">
+          <div class="whitelist-info">
+            <b>${a.username || 'Inconnu'}</b>
+            <div class="meta">
+              Ticket de commande : ${a.ticket || '/'}<br>
+              Ami(e) d'un(e) cliente : ${a.amiClient || '/'}
+            </div>
+          </div>
+          <div class="whitelist-actions">
+            <button class="wl-btn accept" onclick="decideWhitelist('${a.id}', 'accept')">Accepter</button>
+            <button class="wl-btn refuse" onclick="decideWhitelist('${a.id}', 'refuse')">Refuser</button>
+          </div>
+        </div>
+      `).join('')
+      : '<div class="empty-note">Aucune candidature en attente.</div>';
+  }
+
+  function renderWhitelistHistory(applications) {
+    const zone = document.getElementById('whitelistHistory');
+    const decided = applications
+      .filter((a) => a.status !== 'pending')
+      .sort((a, b) => (b.decidedAt || 0) - (a.decidedAt || 0));
+
+    zone.innerHTML = decided.length > 0
+      ? decided.map((a) => `
+        <div class="whitelist-item">
+          <div class="whitelist-info">
+            <b>${a.username || 'Inconnu'}</b>
+            <div class="meta">${a.decidedBy ? `Traitée par ${a.decidedBy}` : ''}</div>
+          </div>
+          <span class="wl-status ${a.status === 'accepted' ? 'accepted' : 'refused'}">
+            ${a.status === 'accepted' ? '✅ Acceptée' : '❌ Refusée'}
+          </span>
+        </div>
+      `).join('')
+      : '<div class="empty-note">Aucune décision pour le moment.</div>';
+  }
+
+  async function loadWhitelist() {
+    try {
+      const res = await fetch(`${BOT_API_URL}/api/whitelist`, { credentials: 'include' });
+      const data = await res.json();
+      if (!data.ok) return;
+      renderWhitelistPending(data.applications);
+      renderWhitelistHistory(data.applications);
+    } catch (err) {
+      // Silencieux
+    }
+  }
+
+  async function decideWhitelist(id, decision) {
+    try {
+      const res = await fetch(`${BOT_API_URL}/api/whitelist/decide`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, decision }),
+      });
+      const data = await res.json();
       if (!data.ok) {
-        zoneEnAttente.textContent = 'Erreur lors du chargement.';
-        zoneEnCours.textContent = 'Erreur lors du chargement.';
-        zoneAttentePaiement.textContent = 'Erreur lors du chargement.';
-        zoneLivrees.textContent = 'Erreur lors du chargement.';
+        alert(data.error || 'Impossible de traiter cette candidature.');
         return;
       }
-
-      const enAttente = data.tickets.filter((t) => t.statut === 'en_attente');
-      const enCours = data.tickets.filter((t) => t.statut === 'en_cours');
-      const attentePaiement = data.tickets.filter((t) => t.statut === 'attente_paiement');
-      const livrees = data.tickets.filter((t) => t.statut === 'livree');
-
-      zoneEnAttente.innerHTML = enAttente.length > 0
-        ? enAttente.map(renderTicketRow).join('')
-        : '<div class="empty-note">Aucun ticket en attente.</div>';
-
-      zoneEnCours.innerHTML = enCours.length > 0
-        ? enCours.map(renderTicketRow).join('')
-        : '<div class="empty-note">Aucun ticket en cours.</div>';
-
-      zoneAttentePaiement.innerHTML = attentePaiement.length > 0
-        ? attentePaiement.map(renderTicketRow).join('')
-        : '<div class="empty-note">Aucun ticket en attente de paiement.</div>';
-
-      zoneLivrees.innerHTML = livrees.length > 0
-        ? livrees.map(renderTicketRow).join('')
-        : '<div class="empty-note">Aucune commande livrée.</div>';
-
-      const ticketsOpenCount = enAttente.length + enCours.length + attentePaiement.length;
-      document.getElementById('statTicketsOpen').textContent = ticketsOpenCount;
-      document.getElementById('statDelivered').textContent = livrees.length;
-      document.getElementById('navTicketCount').textContent = ticketsOpenCount;
+      loadWhitelist();
     } catch (err) {
-      zoneEnAttente.textContent = 'Erreur lors du chargement des tickets.';
-      zoneEnCours.textContent = 'Erreur lors du chargement des tickets.';
-      zoneAttentePaiement.textContent = 'Erreur lors du chargement des tickets.';
-      zoneLivrees.textContent = 'Erreur lors du chargement des tickets.';
+      alert('Erreur de connexion au serveur.');
     }
   }
 
@@ -898,8 +865,6 @@
         return;
       }
 
-      // On affiche le transcript dans une iframe pour conserver sa mise en forme
-      // d'origine (avatars, embeds, couleurs) au lieu de le vider en texte brut.
       const iframe = document.createElement('iframe');
       iframe.src = data.transcriptUrl;
       iframe.onload = () => {
@@ -914,7 +879,6 @@
 
   function closeTranscript() {
     document.getElementById('transcriptOverlay').classList.add('hidden');
-    // On vide le contenu pour arrêter l'iframe (évite qu'elle continue de tourner en fond)
     document.getElementById('transcriptBody').innerHTML = '<div class="transcript-loading" id="transcriptLoading">Chargement...</div>';
   }
 
@@ -923,7 +887,10 @@
   });
 
   checkLogin();
-  setInterval(loadStatus, 30000); // rafraîchit le statut toutes les 30 secondes
+  setInterval(loadStatus, 30000);   // statut serveur toutes les 30s
+  setInterval(loadTickets, 20000);  // tickets toutes les 20s
+  setInterval(loadStats, 45000);    // stats toutes les 45s
+  setInterval(loadWhitelist, 25000); // candidatures whitelist toutes les 25s
 </script>
 
 </body>
